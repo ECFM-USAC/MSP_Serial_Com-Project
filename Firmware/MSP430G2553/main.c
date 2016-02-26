@@ -1,6 +1,14 @@
 /*
  * main.c
  *
+ *	MSP_Serial_Com Project
+ *
+ *	Laboratorio de instrumentacion
+ *	Escuela de Ciencias Fisicas y Matematicas
+ *	USAC
+ *
+ *	ecfm.usac.edu.gt
+ *
  *  Created on: Jan 27, 2016
  *      Author: Hector
  */
