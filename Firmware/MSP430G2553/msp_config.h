@@ -1,6 +1,14 @@
 /*
  * msp_config.h
  *
+ *	MSP_Serial_Com Project
+ *
+ *	Laboratorio de instrumentacion
+ *	Escuela de Ciencias Fisicas y Matematicas
+ *	USAC
+ *
+ *	ecfm.usac.edu.gt
+ *
  *  Created on: Feb 23, 2016
  *      Author: Hector
  */
@@ -19,6 +27,7 @@
 extern volatile unsigned int RX_TRS;
 extern unsigned int SILENT_MODE;
 extern unsigned int MEASUREMENT;
+extern unsigned int NUM_FORMAT;
 
 void ConfigMSP(void);
 

@@ -1,9 +1,18 @@
 /*
  * msp_serial_com.c
  *
+ *	MSP_Serial_Com Project
+ *
+ *	Laboratorio de instrumentacion
+ *	Escuela de Ciencias Fisicas y Matematicas
+ *	USAC
+ *
+ *	ecfm.usac.edu.gt
+ *
  *  Created on: Feb 18, 2016
  *      Author: Hector
  */
+
 #include "string.h"
 #include "msp430g2553.h"
 #include "msp_serial_com.h"
@@ -20,6 +29,7 @@ unsigned int rx_i = 0;
 volatile unsigned int RX_TRS = 0;
 
 unsigned int SILENT_MODE = 0;
+unsigned int NUM_FORMAT = 0;
 
 /* TX interrupt */
 #pragma vector=USCIAB0TX_VECTOR
@@ -83,21 +93,6 @@ __interrupt void USCI0RX_ISR(void)
     	RX_TRS = 1;
     	rx_i = 0;
     }
-/*    switch( SILENT_MODE ){
-    	case 0:
-    		if( tx_str_len > 1 ){
-    			TX_STR = 1;
-    		    UC0IE |= UCA0TXIE;			// Enable USCI_A0 TX interrupt
-    		} else UCA0TXBUF = tx_str_buffer[ 0 ];
-    		break;
-    	case 1:
-    		if( tx_str_len > 1 ){
-    			TX_STR = 1;
-    		    UC0IE |= UCA0TXIE;			// Enable USCI_A0 TX interrupt
-    		}
-    		break;
-    }
-*/
     if( !SILENT_MODE ){
     	if( tx_str_len > 1 ){
     		TX_STR = 1;
@@ -174,7 +169,12 @@ void PrintDec(unsigned int val){
 	PrintStrOSM( DecStr );
 }
 
-int DecStrToInt(const char *String){
+void PrintInt(const unsigned int Value){
+	if ( NUM_FORMAT ) PrintDec( Value );
+	else PrintHex( Value );
+}
+
+unsigned int DecStrToInt(const char *String){
 	if( strlen(String) < 6 ){
 		unsigned int val = 0;
 		unsigned int i = 1;
@@ -189,7 +189,7 @@ int DecStrToInt(const char *String){
 	} return 0;
 }
 
-int HexStrToInt(const char *String){
+unsigned int HexStrToInt(const char *String){
 	if( strlen(String) < 5 ){
 		unsigned int val = 0;
 		unsigned int i = 0;
@@ -198,14 +198,20 @@ int HexStrToInt(const char *String){
 		while( j ){
 			tmp =  String[ --j ];
 			if( ( tmp > 47 )&& (tmp < 58) ){
-				val = ( tmp << i ) - 0x48;
-			} else if ( ( tmp > 64 ) && ( tmp < 47 ) ){
-				val = ( tmp << i ) - 0x65;
+				val += ( tmp - 48 ) << i;
+			} else if ( ( tmp > 64 ) && ( tmp < 71 ) ){
+				val += ( tmp - 55 ) << i;
 			} else return 0;
 			i+=4;
 		}
 		return val;
 	} return 0;
+}
+
+
+unsigned int StrToInt(const char *String){
+	if ( NUM_FORMAT ) return DecStrToInt( String );
+	else return HexStrToInt( String );
 }
 
 void GetRxBuff(char *String){

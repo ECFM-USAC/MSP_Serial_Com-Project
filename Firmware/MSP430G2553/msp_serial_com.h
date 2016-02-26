@@ -1,6 +1,14 @@
 /*
  * msp_serial_com.h
  *
+ *	MSP_Serial_Com Project
+ *
+ *	Laboratorio de instrumentacion
+ *	Escuela de Ciencias Fisicas y Matematicas
+ *	USAC
+ *
+ *	ecfm.usac.edu.gt
+ *
  *  Created on: Feb 18, 2016
  *      Author: Hector
  */
@@ -22,10 +30,8 @@ typedef struct {
 /* functions declarations */
 void PrintStr(const char*);
 void PrintStrOSM(const char*);
-void PrintHex(const unsigned int);
-void PrintDec(const unsigned int);
-int DecStrToInt(const char*);
-int HexStrToInt(const char*);
+void PrintInt(const unsigned int);
+unsigned int StrToInt(const char*);
 void GetRxBuff(char*);
 
 #endif /* MSP_SERIAL_COM_H_ */
