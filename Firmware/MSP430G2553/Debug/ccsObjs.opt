@@ -1,0 +1,1 @@
+"./commands.obj" "./main.obj" "./msp_config.obj" "./msp_serial_com.obj" "../lnk_msp430g2553.cmd" -l"libc.a" 
