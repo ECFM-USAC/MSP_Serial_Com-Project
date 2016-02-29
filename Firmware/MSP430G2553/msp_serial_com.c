@@ -10,7 +10,7 @@
  *	ecfm.usac.edu.gt
  *
  *  Created on: Feb 18, 2016
- *      Author: Hector
+ *      Author: Hector Perez (hector@ecfm.usac.edu.gt)
  */
 
 #include "string.h"
@@ -102,7 +102,7 @@ __interrupt void USCI0RX_ISR(void)
 }
 
 
-void PrintStr(const char *String){
+void Serial_PrintStr(const char *String){
 	if (String != NULL && ( SILENT_MODE < 2 ) ) {
 		while (*String != '\0') {
 			/* Wait for the transmit buffer to be ready */
@@ -120,7 +120,7 @@ void PrintStr(const char *String){
 	}
 }
 
-void PrintStrOSM(const char *String){
+void Serial_PrintStrOSM(const char *String){
 	if (String != NULL ) {
 		while (*String != '\0') {
 			/* Wait for the transmit buffer to be ready */
@@ -139,7 +139,7 @@ void PrintStrOSM(const char *String){
 }
 
 
-void PrintHex(const unsigned int val){
+void Serial_PrintHex(const unsigned int val){
 	char HexStr[ 5 ];
 	unsigned int tmp;
 	tmp = (val & 0xF000) >> 12;
@@ -151,10 +151,10 @@ void PrintHex(const unsigned int val){
 	tmp = val & 0x000F;
 	HexStr[ 3 ] = ( tmp < 0x000A ? tmp + 0x0030 : tmp + 0x0037 );
 	HexStr[ 4 ] = '\0';
-	PrintStrOSM( HexStr );
+	Serial_PrintStrOSM( HexStr );
 }
 
-void PrintDec(unsigned int val){
+void Serial_PrintDec(unsigned int val){
 	char DecStr[ 6 ];
 	unsigned int i = 10000;
 	unsigned int j = 0;
@@ -166,15 +166,15 @@ void PrintDec(unsigned int val){
 		i/=10;
 	}
 	DecStr[ j ] = '\0';
-	PrintStrOSM( DecStr );
+	Serial_PrintStrOSM( DecStr );
 }
 
-void PrintInt(const unsigned int Value){
-	if ( NUM_FORMAT ) PrintDec( Value );
-	else PrintHex( Value );
+void Serial_PrintInt(const unsigned int Value){
+	if ( NUM_FORMAT ) Serial_PrintDec( Value );
+	else Serial_PrintHex( Value );
 }
 
-unsigned int DecStrToInt(const char *String){
+unsigned int Serial_DecStrToInt(const char *String){
 	if( strlen(String) < 6 ){
 		unsigned int val = 0;
 		unsigned int i = 1;
@@ -189,7 +189,7 @@ unsigned int DecStrToInt(const char *String){
 	} return 0;
 }
 
-unsigned int HexStrToInt(const char *String){
+unsigned int Serial_HexStrToInt(const char *String){
 	if( strlen(String) < 5 ){
 		unsigned int val = 0;
 		unsigned int i = 0;
@@ -209,11 +209,11 @@ unsigned int HexStrToInt(const char *String){
 }
 
 
-unsigned int StrToInt(const char *String){
-	if ( NUM_FORMAT ) return DecStrToInt( String );
-	else return HexStrToInt( String );
+unsigned int Serial_StrToInt(const char *String){
+	if ( NUM_FORMAT ) return Serial_DecStrToInt( String );
+	else return Serial_HexStrToInt( String );
 }
 
-void GetRxBuff(char *String){
+void Serial_GetRxBuff(char *String){
 	strcpy(String, rx_str_buffer);
 }

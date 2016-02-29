@@ -10,7 +10,7 @@
  *	ecfm.usac.edu.gt
  *
  *  Created on: 25/02/2016
- *      Author: hepf
+ *      Author: Hector Perez (hector@ecfm.usac.edu.gt)
  */
 
 #include "string.h"
@@ -63,7 +63,7 @@ void Exec_Commands(void){
 	char Rcv_Cmd[ RX_BUF_SIZE ];
 	unsigned int CMD = 0;
 	char *token;
-	 GetRxBuff(Rcv_Cmd);
+	Serial_GetRxBuff(Rcv_Cmd);
 	token = strtok(Rcv_Cmd," ");
 	unsigned int i = CMD_NUMBER;
 	while(i--){
@@ -73,19 +73,19 @@ void Exec_Commands(void){
 		CMD = 1;
 		}
 	}
-	if( !CMD ) PrintStr( "> Invalid command\n" );
+	if( !CMD ) Serial_PrintStr( "> Invalid command\n" );
 	RX_TRS = 0;
 }
 
 
 void Show_help(char *arg){
 	unsigned int i = CMD_NUMBER;
-	PrintStr( "\nCommands avaible:\n" );
+	Serial_PrintStr( "\nCommands avaible:\n" );
 	while( i-- ){
-		PrintStr( "\n" );
-		PrintStr( COMMAND_LIST[ i ].cmd_help );
+		Serial_PrintStr( "\n" );
+		Serial_PrintStr( COMMAND_LIST[ i ].cmd_help );
 	}
-	PrintStr( "\n\n" );
+	Serial_PrintStr( "\n\n" );
 }
 
 void Silent_Mode_Select(char *arg){
@@ -105,9 +105,9 @@ void Silent_Mode_Select(char *arg){
 		break;
 	}
 	if ( CMD_OK )
-		PrintStr( "> OK\n" );
+		Serial_PrintStr( "> OK\n" );
 	else
-		PrintStr( "> Invalid argument\n" );
+		Serial_PrintStr( "> Invalid argument\n" );
 }
 
 void Green_led_func(char *arg){
@@ -130,13 +130,13 @@ void Green_led_func(char *arg){
 	}
 	switch ( CMD_OK ){
 	case 0:
-		PrintStr( "> Invalid argument\n" );
+		Serial_PrintStr( "> Invalid argument\n" );
 		break;
 	case 1:
-		PrintStr( "> OK\n" );
+		Serial_PrintStr( "> OK\n" );
 		break;
 	case 2:
-		PrintStr( "> No change\n" );
+		Serial_PrintStr( "> No change\n" );
 		break;
 	}
 }
@@ -158,7 +158,7 @@ void Red_led_func(char *arg){
 	case '1':
 		if (!BLK_STATUS && !TMS_STATUS ){
 			token = strtok( NULL, " ");
-			Period = StrToInt( token );
+			Period = Serial_StrToInt( token );
 			if( Period ){
 			    CCR0 =  Period;
 				BLK_STATUS = 1;
@@ -171,20 +171,20 @@ void Red_led_func(char *arg){
 	}
 	switch ( CMD_OK ){
 	case 0:
-		PrintStr( "> Invalid argument\n" );
+		Serial_PrintStr( "> Invalid argument\n" );
 		break;
 	case 1:
-		PrintStr( "> OK\n" );
+		Serial_PrintStr( "> OK\n" );
 		break;
 	case 2:
-		PrintStr( "> Timer Busy\n" );
+		Serial_PrintStr( "> Timer Busy\n" );
 		break;
 	}
 }
 
 void PrintMeasure(void){
-	PrintInt( MEASURE );
-	PrintStrOSM("\n");
+	Serial_PrintInt( MEASURE );
+	Serial_PrintStrOSM("\n");
 	MEASUREMENT = 0;
 }
 
@@ -202,7 +202,7 @@ void Read_Temp(char *arg){
 	case '1':
 		if ( !TMS_STATUS && !BLK_STATUS ){
 			token = strtok( NULL, " ");
-			T_MEAS = StrToInt( token );
+			T_MEAS = Serial_StrToInt( token );
 			if( T_MEAS ){
 			    CCR0 = 2000;
 				TMS_STATUS = 1;
@@ -217,13 +217,13 @@ void Read_Temp(char *arg){
 	}
 	switch ( CMD_OK ){
 	case 0:
-		PrintStr( "> Invalid argument\n" );
+		Serial_PrintStr( "> Invalid argument\n" );
 		break;
 	case 1:
-		PrintStr( "> OK\n" );
+		Serial_PrintStr( "> OK\n" );
 		break;
 	case 2:
-		PrintStr( "> Timer busy\n" );
+		Serial_PrintStr( "> Timer busy\n" );
 		break;
 	}
 }
@@ -240,8 +240,8 @@ void Num_Format_Select(char *arg){
 		CMD_OK = 1;
 		break;
 	}
-	if ( CMD_OK ) PrintStr( "> OK\n" );
-	else PrintStr( "> Invalid argument\n" );
+	if ( CMD_OK ) Serial_PrintStr( "> OK\n" );
+	else Serial_PrintStr( "> Invalid argument\n" );
 }
 
 

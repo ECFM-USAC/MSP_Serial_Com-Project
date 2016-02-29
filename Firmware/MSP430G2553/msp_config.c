@@ -10,7 +10,7 @@
  *	ecfm.usac.edu.gt
  *
  *  Created on: Feb 23, 2016
- *      Author: Hector
+ *      Author: Hector Perez (hector@ecfm.usac.edu.gt)
  */
 
 #include "msp430g2553.h"

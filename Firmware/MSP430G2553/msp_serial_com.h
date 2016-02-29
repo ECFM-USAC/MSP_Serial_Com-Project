@@ -10,7 +10,7 @@
  *	ecfm.usac.edu.gt
  *
  *  Created on: Feb 18, 2016
- *      Author: Hector
+ *      Author: Hector Perez (hector@ecfm.usac.edu.gt)
  */
 
 #ifndef MSP_SERIAL_COM_H_
@@ -28,10 +28,10 @@ typedef struct {
 
 
 /* functions declarations */
-void PrintStr(const char*);
-void PrintStrOSM(const char*);
-void PrintInt(const unsigned int);
-unsigned int StrToInt(const char*);
-void GetRxBuff(char*);
+void Serial_PrintStr(const char*);
+void Serial_PrintStrOSM(const char*);
+void Serial_PrintInt(const unsigned int);
+unsigned int Serial_StrToInt(const char*);
+void Serial_GetRxBuff(char*);
 
 #endif /* MSP_SERIAL_COM_H_ */
