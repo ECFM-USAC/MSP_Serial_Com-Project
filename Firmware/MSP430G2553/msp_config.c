@@ -61,8 +61,8 @@ void InitPorts(void){
 }
 
 void SetADC(void){
-	ADC10CTL0=SREF_1 + REFON + ADC10ON + ADC10SHT_3 ; //1.5V ref,Ref on,64 clocks for sample
-	ADC10CTL1=INCH_10+ ADC10DIV_3; //temp sensor is at 10 and clock/4
+	ADC10CTL0=SREF_1 + REFON + ADC10ON + ADC10SHT_3 ;
+	ADC10CTL1=INCH_10+ ADC10DIV_3;
 }
 
 void ConfigMSP(){
@@ -75,5 +75,5 @@ void ConfigMSP(){
 	SetTimerA();
 	SetADC();
 
-    __bis_SR_register(GIE); // Enter LPM0 w/ int until Byte RXed
+    __bis_SR_register(GIE);
 }

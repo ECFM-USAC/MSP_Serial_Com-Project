@@ -21,7 +21,6 @@
 char tx_str_buffer[ TX_BUF_SIZE ];
 unsigned int tx_str_len;
 unsigned int tx_i;
-unsigned int TX_STR = 0;
 volatile unsigned int TX_TRS = 0;
 
 char rx_str_buffer[ RX_BUF_SIZE ];
@@ -32,33 +31,34 @@ unsigned int SILENT_MODE = 0;
 unsigned int NUM_FORMAT = 0;
 
 /* TX interrupt */
+
 #pragma vector=USCIAB0TX_VECTOR
 __interrupt void USCI0TX_ISR(void)
 {
-	if ( TX_STR ){
-		if (TX_TRS==0){
-			TX_TRS = 1;
-			tx_i = 0;
-			UCA0TXBUF = tx_str_buffer[tx_i++];		// TX next character
-		} else if (tx_i < tx_str_len ){ 	// TX over?
-				UCA0TXBUF = tx_str_buffer[tx_i++];
+	if ( TX_TRS ){
+		 if (tx_i < tx_str_len ){
+			UCA0TXBUF = tx_str_buffer[tx_i++];
 		} else {
-				UC0IE &= ~UCA0TXIE; 		// Disable USCI_A0 TX interrupt
-				TX_TRS = 0;
-				TX_STR = 0;
+			UC0IE &= ~UCA0TXIE;
+			TX_TRS = 0;
+			tx_str_len = 0;
 		}
-	} else UC0IE &= ~UCA0TXIE;
-}
 
+	} else {
+		TX_TRS = 1;
+		tx_i = 0;
+		UCA0TXBUF = tx_str_buffer[tx_i++];
+	}
+}
 
 
 #pragma vector=USCIAB0RX_VECTOR
 __interrupt void USCI0RX_ISR(void)
 {
-    if ( rx_i == 0 ){
+    if ( !rx_i ){
     	rx_str_buffer[0] = '\x0';
     }
-    if ( rx_i > 30 ){
+    if ( rx_i > ( RX_BUF_SIZE - 1 ) ){
 		tx_str_buffer[0] = '\x07';
 		tx_str_buffer[1] = '\r';
 		tx_str_buffer[2] = '\n';
@@ -78,7 +78,7 @@ __interrupt void USCI0RX_ISR(void)
 		tx_str_len = 1;
     	rx_str_buffer[rx_i++] = UCA0RXBUF;
     } else if ( UCA0RXBUF == 0x8 ) {
-    	if (rx_i > 0 ){
+    	if ( rx_i ){
     		tx_str_buffer[0]='\x08';
     		tx_str_buffer[1]=' ';
     		tx_str_buffer[2]='\x08';
@@ -86,18 +86,19 @@ __interrupt void USCI0RX_ISR(void)
     		rx_str_buffer[--rx_i] = 0;
     	}
     } else if ( UCA0RXBUF == 0xD ) {
-		tx_str_buffer[0] = '\n';
-		tx_str_buffer[1] = '\r';
-		tx_str_len = 2;
-    	rx_str_buffer[rx_i] = '\x0';
-    	RX_TRS = 1;
-    	rx_i = 0;
+    	if ( rx_i ){
+			tx_str_buffer[0] = '\n';
+			tx_str_buffer[1] = '\r';
+			tx_str_len = 2;
+			rx_str_buffer[rx_i] = '\x0';
+			RX_TRS = 1;
+			rx_i = 0;
+    	}
     }
     if( !SILENT_MODE ){
-    	if( tx_str_len > 1 ){
-    		TX_STR = 1;
-    		UC0IE |= UCA0TXIE;			// Enable USCI_A0 TX interrupt
-    	} else UCA0TXBUF = tx_str_buffer[ 0 ];
+    	if( tx_str_len ){
+    		UC0IE |= UCA0TXIE;
+    	} else if ( rx_i ) UCA0TXBUF = tx_str_buffer[ 0 ];
     }
 }
 
@@ -105,13 +106,9 @@ __interrupt void USCI0RX_ISR(void)
 void Serial_PrintStr(const char *String){
 	if (String != NULL && ( SILENT_MODE < 2 ) ) {
 		while (*String != '\0') {
-			/* Wait for the transmit buffer to be ready */
             while (TX_TRS || !(IFG2 & UCA0TXIFG));
-            /* Transmit data */
             UCA0TXBUF = *String;
-            /* If there is a line-feed, add a carriage return */
             if (*String == '\n') {
-            	/* Wait for the transmit buffer to be ready */
             	while (TX_TRS || !(IFG2 & UCA0TXIFG));
             	UCA0TXBUF = '\r';
             }
@@ -123,13 +120,9 @@ void Serial_PrintStr(const char *String){
 void Serial_PrintStrOSM(const char *String){
 	if (String != NULL ) {
 		while (*String != '\0') {
-			/* Wait for the transmit buffer to be ready */
             while (TX_TRS || !(IFG2 & UCA0TXIFG));
-            /* Transmit data */
             UCA0TXBUF = *String;
-            /* If there is a line-feed, add a carriage return */
             if (*String == '\n') {
-            	/* Wait for the transmit buffer to be ready */
             	while (TX_TRS || !(IFG2 & UCA0TXIFG));
             	UCA0TXBUF = '\r';
             }

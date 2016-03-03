@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker PC v4.4.7                      
 ******************************************************************************
->> Linked Mon Feb 29 16:39:13 2016
+>> Linked Thu Mar 03 15:19:01 2016
 
 OUTPUT FILE NAME:   <MSP_Serial_Com project.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs_noexit"  address: 0000c942
+ENTRY POINT SYMBOL: "_c_int00_noargs_noexit"  address: 0000c960
 
 
 MEMORY CONFIGURATION
@@ -14,12 +14,12 @@ MEMORY CONFIGURATION
   SFR                   00000000   00000010  00000000  00000010  RWIX
   PERIPHERALS_8BIT      00000010   000000f0  00000000  000000f0  RWIX
   PERIPHERALS_16BIT     00000100   00000100  00000000  00000100  RWIX
-  RAM                   00000200   00000200  0000008a  00000176  RWIX
+  RAM                   00000200   00000200  00000088  00000178  RWIX
   INFOD                 00001000   00000040  00000000  00000040  RWIX
   INFOC                 00001040   00000040  00000000  00000040  RWIX
   INFOB                 00001080   00000040  00000000  00000040  RWIX
   INFOA                 000010c0   00000040  00000000  00000040  RWIX
-  FLASH                 0000c000   00003fde  00000de8  000031f6  RWIX
+  FLASH                 0000c000   00003fde  00000e30  000031ae  RWIX
   BSLSIGNATURE          0000ffde   00000002  00000002  00000000  RWIX  ffff 
   INT00                 0000ffe0   00000002  00000002  00000000  RWIX
   INT01                 0000ffe2   00000002  00000000  00000002  RWIX
@@ -44,85 +44,85 @@ SECTION ALLOCATION MAP
  output                                  attributes/
 section   page    origin      length       input sections
 --------  ----  ----------  ----------   ----------------
-.data      0    00000200    0000001e     UNINITIALIZED
-                  00000200    00000010     commands.obj (.data)
-                  00000210    0000000c     msp_serial_com.obj (.data)
-                  0000021c    00000002     rts430_eabi.lib : strtok.obj (.data)
+.bss       0    00000200    0000001c     UNINITIALIZED
+                  00000200    00000010     (.common:rx_str_buffer)
+                  00000210    00000006     (.common:tx_str_buffer)
+                  00000216    00000002     (.common:MEASURE)
+                  00000218    00000002     (.common:tx_i)
+                  0000021a    00000002     (.common:tx_str_len)
 
-.bss       0    0000021e    0000001c     UNINITIALIZED
-                  0000021e    00000010     (.common:rx_str_buffer)
-                  0000022e    00000006     (.common:tx_str_buffer)
-                  00000234    00000002     (.common:MEASURE)
-                  00000236    00000002     (.common:tx_i)
-                  00000238    00000002     (.common:tx_str_len)
+.data      0    0000021c    0000001c     UNINITIALIZED
+                  0000021c    00000010     commands.obj (.data)
+                  0000022c    0000000a     msp_serial_com.obj (.data)
+                  00000236    00000002     rts430_eabi.lib : strtok.obj (.data)
 
 .TI.persistent 
-*          0    00000200    00000000     UNINITIALIZED
+*          0    0000021c    00000000     UNINITIALIZED
 
 .stack     0    000003b0    00000050     UNINITIALIZED
                   000003b0    00000002     rts430_eabi.lib : boot.obj (.stack)
                   000003b2    0000004e     --HOLE--
 
-.text      0    0000c000    00000aa0     
-                  0000c000    00000146     msp_serial_com.obj (.text:USCI0RX_ISR)
-                  0000c146    0000009e     commands.obj (.text:Read_Temp)
-                  0000c1e4    00000094     msp_serial_com.obj (.text:Serial_PrintHex)
-                  0000c278    0000008e     commands.obj (.text:Red_led_func)
-                  0000c306    0000007c     commands.obj (.text:Exec_Commands)
-                  0000c382    00000074     msp_serial_com.obj (.text:Serial_HexStrToInt)
-                  0000c3f6    00000070     commands.obj (.text:Timer_A)
-                  0000c466    00000066     commands.obj (.text:Green_led_func)
-                  0000c4cc    00000064     msp_serial_com.obj (.text:Serial_PrintDec)
-                  0000c530    00000064     rts430_eabi.lib : copy_decompress_rle.obj (.text:__TI_decompress_rle_core)
-                  0000c594    00000060     msp_serial_com.obj (.text:USCI0TX_ISR)
-                  0000c5f4    00000058     rts430_eabi.lib : autoinit.obj (.text:_auto_init)
-                  0000c64c    00000050     msp_serial_com.obj (.text:Serial_DecStrToInt)
-                  0000c69c    0000004e     rts430_eabi.lib : strtok.obj (.text:strtok)
-                  0000c6ea    0000004c                     : lsr16.obj (.text)
-                  0000c736    00000040     msp_serial_com.obj (.text:Serial_PrintStr)
-                  0000c776    00000040     commands.obj (.text:Silent_Mode_Select)
-                  0000c7b6    0000003e     commands.obj (.text:Show_help)
-                  0000c7f4    0000003a     msp_serial_com.obj (.text:Serial_PrintStrOSM)
-                  0000c82e    00000034     commands.obj (.text:Num_Format_Select)
-                  0000c862    0000002c     msp_config.obj (.text:SetUART_115200_16MHz)
-                  0000c88e    0000002c     rts430_eabi.lib : lsl16.obj (.text)
-                  0000c8ba    00000028                     : strcspn.obj (.text:strcspn)
-                  0000c8e2    00000028                     : strspn.obj (.text:strspn)
-                  0000c90a    0000001e     msp_config.obj (.text:ConfigMSP)
-                  0000c928    0000001a     msp_config.obj (.text:InitPorts)
-                  0000c942    0000001a     rts430_eabi.lib : boot_special.obj (.text:_c_int00_noargs_noexit)
-                  0000c95c    0000001a     main.obj (.text:main)
-                  0000c976    00000018     rts430_eabi.lib : strcmp.obj (.text:strcmp)
-                  0000c98e    00000016     commands.obj (.text:PrintMeasure)
-                  0000c9a4    00000016     rts430_eabi.lib : div16u.obj (.text)
-                  0000c9ba    00000014                     : copy_zero_init.obj (.text:decompress:ZI:__TI_zero_init)
-                  0000c9ce    00000014                     : mult16.obj (.text)
-                  0000c9e2    00000012     msp_serial_com.obj (.text:Serial_PrintInt)
-                  0000c9f4    00000012     msp_serial_com.obj (.text:Serial_StrToInt)
-                  0000ca06    00000012     rts430_eabi.lib : copy_decompress_none.obj (.text:decompress:none:__TI_decompress_none)
-                  0000ca18    00000012                     : memcpy.obj (.text:memcpy)
-                  0000ca2a    00000010                     : epilog.obj (.text)
-                  0000ca3a    00000010                     : strcpy.obj (.text:strcpy)
-                  0000ca4a    0000000e     msp_config.obj (.text:SetADC)
-                  0000ca58    0000000e     msp_config.obj (.text:SetClock_16Mhz)
-                  0000ca66    0000000e     msp_config.obj (.text:SetTimerA)
-                  0000ca74    0000000e     rts430_eabi.lib : strlen.obj (.text:strlen)
-                  0000ca82    0000000a     msp_serial_com.obj (.text:Serial_GetRxBuff)
-                  0000ca8c    00000006     rts430_eabi.lib : isr_trap.obj (.text:_isr:__TI_ISR_TRAP)
-                  0000ca92    00000006                     : copy_decompress_rle.obj (.text:decompress:rle24:__TI_decompress_rle24)
-                  0000ca98    00000004                     : pre_init.obj (.text:_system_pre_init)
-                  0000ca9c    00000004                     : exit.obj (.text:abort)
+.text      0    0000c000    00000abe     
+                  0000c000    0000014e     msp_serial_com.obj (.text:USCI0RX_ISR)
+                  0000c14e    0000009e     commands.obj (.text:Read_Temp)
+                  0000c1ec    00000094     msp_serial_com.obj (.text:Serial_PrintHex)
+                  0000c280    0000008e     commands.obj (.text:Red_led_func)
+                  0000c30e    0000007c     commands.obj (.text:Exec_Commands)
+                  0000c38a    00000074     msp_serial_com.obj (.text:Serial_HexStrToInt)
+                  0000c3fe    00000070     commands.obj (.text:Timer_A)
+                  0000c46e    00000066     commands.obj (.text:Green_led_func)
+                  0000c4d4    00000064     msp_serial_com.obj (.text:Serial_PrintDec)
+                  0000c538    00000064     rts430_eabi.lib : copy_decompress_rle.obj (.text:__TI_decompress_rle_core)
+                  0000c59c    00000058                     : autoinit.obj (.text:_auto_init)
+                  0000c5f4    00000056     commands.obj (.text:Num_Format_Select)
+                  0000c64a    00000054     msp_serial_com.obj (.text:USCI0TX_ISR)
+                  0000c69e    00000050     msp_serial_com.obj (.text:Serial_DecStrToInt)
+                  0000c6ee    0000004e     rts430_eabi.lib : strtok.obj (.text:strtok)
+                  0000c73c    0000004c                     : lsr16.obj (.text)
+                  0000c788    00000040     msp_serial_com.obj (.text:Serial_PrintStr)
+                  0000c7c8    00000040     commands.obj (.text:Silent_Mode_Select)
+                  0000c808    0000003e     commands.obj (.text:Show_help)
+                  0000c846    0000003a     msp_serial_com.obj (.text:Serial_PrintStrOSM)
+                  0000c880    0000002c     msp_config.obj (.text:SetUART_115200_16MHz)
+                  0000c8ac    0000002c     rts430_eabi.lib : lsl16.obj (.text)
+                  0000c8d8    00000028                     : strcspn.obj (.text:strcspn)
+                  0000c900    00000028                     : strspn.obj (.text:strspn)
+                  0000c928    0000001e     msp_config.obj (.text:ConfigMSP)
+                  0000c946    0000001a     msp_config.obj (.text:InitPorts)
+                  0000c960    0000001a     rts430_eabi.lib : boot_special.obj (.text:_c_int00_noargs_noexit)
+                  0000c97a    0000001a     main.obj (.text:main)
+                  0000c994    00000018     rts430_eabi.lib : strcmp.obj (.text:strcmp)
+                  0000c9ac    00000016     commands.obj (.text:PrintMeasure)
+                  0000c9c2    00000016     rts430_eabi.lib : div16u.obj (.text)
+                  0000c9d8    00000014                     : copy_zero_init.obj (.text:decompress:ZI:__TI_zero_init)
+                  0000c9ec    00000014                     : mult16.obj (.text)
+                  0000ca00    00000012     msp_serial_com.obj (.text:Serial_PrintInt)
+                  0000ca12    00000012     msp_serial_com.obj (.text:Serial_StrToInt)
+                  0000ca24    00000012     rts430_eabi.lib : copy_decompress_none.obj (.text:decompress:none:__TI_decompress_none)
+                  0000ca36    00000012                     : memcpy.obj (.text:memcpy)
+                  0000ca48    00000010                     : epilog.obj (.text)
+                  0000ca58    00000010                     : strcpy.obj (.text:strcpy)
+                  0000ca68    0000000e     msp_config.obj (.text:SetADC)
+                  0000ca76    0000000e     msp_config.obj (.text:SetClock_16Mhz)
+                  0000ca84    0000000e     msp_config.obj (.text:SetTimerA)
+                  0000ca92    0000000e     rts430_eabi.lib : strlen.obj (.text:strlen)
+                  0000caa0    0000000a     msp_serial_com.obj (.text:Serial_GetRxBuff)
+                  0000caaa    00000006     rts430_eabi.lib : isr_trap.obj (.text:_isr:__TI_ISR_TRAP)
+                  0000cab0    00000006                     : copy_decompress_rle.obj (.text:decompress:rle24:__TI_decompress_rle24)
+                  0000cab6    00000004                     : pre_init.obj (.text:_system_pre_init)
+                  0000caba    00000004                     : exit.obj (.text:abort)
 
-.const     0    0000caa0    00000328     
-                  0000caa0    00000304     commands.obj (.const:.string)
-                  0000cda4    00000024     commands.obj (.const:COMMAND_LIST)
+.const     0    0000cabe    00000352     
+                  0000cabe    0000032e     commands.obj (.const:.string)
+                  0000cdec    00000024     commands.obj (.const:COMMAND_LIST)
 
-.cinit     0    0000cdc8    00000020     
-                  0000cdc8    0000000d     (.cinit..data.load) [load image, compression = rle]
-                  0000cdd5    00000001     --HOLE-- [fill = 0]
-                  0000cdd6    00000006     (__TI_handler_table)
-                  0000cddc    00000004     (.cinit..bss.load) [load image, compression = zero_init]
-                  0000cde0    00000008     (__TI_cinit_table)
+.cinit     0    0000ce10    00000020     
+                  0000ce10    0000000d     (.cinit..data.load) [load image, compression = rle]
+                  0000ce1d    00000001     --HOLE-- [fill = 0]
+                  0000ce1e    00000006     (__TI_handler_table)
+                  0000ce24    00000004     (.cinit..bss.load) [load image, compression = zero_init]
+                  0000ce28    00000008     (__TI_cinit_table)
 
 .init_array 
 *          0    0000c000    00000000     UNINITIALIZED
@@ -182,14 +182,14 @@ NMI        0    0000fffc    00000002
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 0000cde0 records: 2, size/record: 4, table size: 8
-	.data: load addr=0000cdc8, load size=0000000d bytes, run addr=00000200, run size=0000001e bytes, compression=rle
-	.bss: load addr=0000cddc, load size=00000004 bytes, run addr=0000021e, run size=0000001c bytes, compression=zero_init
+__TI_cinit_table @ 0000ce28 records: 2, size/record: 4, table size: 8
+	.data: load addr=0000ce10, load size=0000000d bytes, run addr=0000021c, run size=0000001c bytes, compression=rle
+	.bss: load addr=0000ce24, load size=00000004 bytes, run addr=00000200, run size=0000001c bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 0000cdd6 records: 3, size/record: 2, table size: 6
+__TI_handler_table @ 0000ce1e records: 3, size/record: 2, table size: 6
 	index: 0, handler: __TI_zero_init
 	index: 1, handler: __TI_decompress_rle24
 	index: 2, handler: __TI_decompress_none
@@ -209,8 +209,8 @@ address   name
 00000057  BCSCTL1                 
 00000058  BCSCTL2                 
 00000053  BCSCTL3                 
-00000202  BLK_STATUS              
-0000ca9c  C$$EXIT                 
+0000021e  BLK_STATUS              
+0000caba  C$$EXIT                 
 00000059  CACTL1                  
 0000005a  CACTL2                  
 000010fb  CALBC1_12MHZ            
@@ -222,24 +222,24 @@ address   name
 000010fe  CALDCO_1MHZ             
 000010fc  CALDCO_8MHZ             
 0000005b  CAPD                    
-0000cda4  COMMAND_LIST            
-0000c90a  ConfigMSP               
+0000cdec  COMMAND_LIST            
+0000c928  ConfigMSP               
 00000056  DCOCTL                  
-0000c306  Exec_Commands           
+0000c30e  Exec_Commands           
 00000128  FCTL1                   
 0000012a  FCTL2                   
 0000012c  FCTL3                   
-00000200  GRL_STATUS              
-0000c466  Green_led_func          
+0000021c  GRL_STATUS              
+0000c46e  Green_led_func          
 00000000  IE1                     
 00000001  IE2                     
 00000002  IFG1                    
 00000003  IFG2                    
-0000c928  InitPorts               
-00000234  MEASURE                 
-0000020e  MEASUREMENT             
-0000021a  NUM_FORMAT              
-0000c82e  Num_Format_Select       
+0000c946  InitPorts               
+00000216  MEASURE                 
+0000022a  MEASUREMENT             
+00000234  NUM_FORMAT              
+0000c5f4  Num_Format_Select       
 00000022  P1DIR                   
 00000025  P1IE                    
 00000024  P1IES                   
@@ -264,26 +264,26 @@ address   name
 00000010  P3REN                   
 0000001b  P3SEL                   
 00000043  P3SEL2                  
-0000c98e  PrintMeasure            
-00000216  RX_TRS                  
-0000c146  Read_Temp               
-0000c278  Red_led_func            
-00000218  SILENT_MODE             
-0000c64c  Serial_DecStrToInt      
-0000ca82  Serial_GetRxBuff        
-0000c382  Serial_HexStrToInt      
-0000c4cc  Serial_PrintDec         
-0000c1e4  Serial_PrintHex         
-0000c9e2  Serial_PrintInt         
-0000c736  Serial_PrintStr         
-0000c7f4  Serial_PrintStrOSM      
-0000c9f4  Serial_StrToInt         
-0000ca4a  SetADC                  
-0000ca58  SetClock_16Mhz          
-0000ca66  SetTimerA               
-0000c862  SetUART_115200_16MHz    
-0000c7b6  Show_help               
-0000c776  Silent_Mode_Select      
+0000c9ac  PrintMeasure            
+00000230  RX_TRS                  
+0000c14e  Read_Temp               
+0000c280  Red_led_func            
+00000232  SILENT_MODE             
+0000c69e  Serial_DecStrToInt      
+0000caa0  Serial_GetRxBuff        
+0000c38a  Serial_HexStrToInt      
+0000c4d4  Serial_PrintDec         
+0000c1ec  Serial_PrintHex         
+0000ca00  Serial_PrintInt         
+0000c788  Serial_PrintStr         
+0000c846  Serial_PrintStrOSM      
+0000ca12  Serial_StrToInt         
+0000ca68  SetADC                  
+0000ca76  SetClock_16Mhz          
+0000ca84  SetTimerA               
+0000c880  SetUART_115200_16MHz    
+0000c808  Show_help               
+0000c7c8  Silent_Mode_Select      
 00000172  TA0CCR0                 
 00000174  TA0CCR1                 
 00000176  TA0CCR2                 
@@ -302,17 +302,16 @@ address   name
 00000180  TA1CTL                  
 0000011e  TA1IV                   
 00000190  TA1R                    
-00000206  TIMER_A_SELECT          
+00000222  TIMER_A_SELECT          
 000010db  TLV_ADC10_1_LEN         
 000010da  TLV_ADC10_1_TAG         
 000010c0  TLV_CHECKSUM            
 000010f7  TLV_DCO_30_LEN          
 000010f6  TLV_DCO_30_TAG          
-00000204  TMS_STATUS              
-00000210  TX_STR                  
-00000212  TX_TRS                  
-0000020c  T_MEAS                  
-0000c3f6  Timer_A                 
+00000220  TMS_STATUS              
+0000022c  TX_TRS                  
+00000228  T_MEAS                  
+0000c3fe  Timer_A                 
 0000005d  UCA0ABCTL               
 00000062  UCA0BR0                 
 00000063  UCA0BR1                 
@@ -335,19 +334,19 @@ address   name
 0000006d  UCB0STAT                
 0000006f  UCB0TXBUF               
 0000c000  USCI0RX_ISR             
-0000c594  USCI0TX_ISR             
+0000c64a  USCI0TX_ISR             
 00000120  WDTCTL                  
 00000400  __STACK_END             
 00000050  __STACK_SIZE            
-0000cde0  __TI_CINIT_Base         
-0000cde8  __TI_CINIT_Limit        
-0000cdd6  __TI_Handler_Table_Base 
-0000cddc  __TI_Handler_Table_Limit
+0000ce28  __TI_CINIT_Base         
+0000ce30  __TI_CINIT_Limit        
+0000ce1e  __TI_Handler_Table_Base 
+0000ce24  __TI_Handler_Table_Limit
 UNDEFED   __TI_INITARRAY_Base     
 UNDEFED   __TI_INITARRAY_Limit    
-0000ca8c  __TI_ISR_TRAP           
-0000ca06  __TI_decompress_none    
-0000ca92  __TI_decompress_rle24   
+0000caaa  __TI_ISR_TRAP           
+0000ca24  __TI_decompress_none    
+0000cab0  __TI_decompress_rle24   
 0000ffe0  __TI_int00              
 0000ffe4  __TI_int02              
 0000ffe6  __TI_int03              
@@ -361,74 +360,74 @@ UNDEFED   __TI_INITARRAY_Limit
 0000fff8  __TI_int12              
 0000fffa  __TI_int13              
 0000fffc  __TI_int14              
-0000c9ba  __TI_zero_init          
+0000c9d8  __TI_zero_init          
 ffffffff  __binit__               
 ffffffff  __c_args__              
-0000c9a4  __mspabi_divu           
-0000ca36  __mspabi_func_epilog_1  
-0000ca34  __mspabi_func_epilog_2  
-0000ca32  __mspabi_func_epilog_3  
-0000ca30  __mspabi_func_epilog_4  
-0000ca2e  __mspabi_func_epilog_5  
-0000ca2c  __mspabi_func_epilog_6  
-0000ca2a  __mspabi_func_epilog_7  
-0000c9ce  __mspabi_mpyi           
-0000c9ce  __mspabi_mpyi_sw        
-0000c9a4  __mspabi_remu           
-0000c88e  __mspabi_slli           
-0000c8b6  __mspabi_slli_1         
-0000c8a4  __mspabi_slli_10        
-0000c8a2  __mspabi_slli_11        
-0000c8a0  __mspabi_slli_12        
-0000c89e  __mspabi_slli_13        
-0000c89c  __mspabi_slli_14        
-0000c89a  __mspabi_slli_15        
-0000c8b4  __mspabi_slli_2         
-0000c8b2  __mspabi_slli_3         
-0000c8b0  __mspabi_slli_4         
-0000c8ae  __mspabi_slli_5         
-0000c8ac  __mspabi_slli_6         
-0000c8aa  __mspabi_slli_7         
-0000c8a8  __mspabi_slli_8         
-0000c8a6  __mspabi_slli_9         
-0000c6ea  __mspabi_srli           
-0000c730  __mspabi_srli_1         
-0000c70c  __mspabi_srli_10        
-0000c708  __mspabi_srli_11        
-0000c704  __mspabi_srli_12        
-0000c700  __mspabi_srli_13        
-0000c6fc  __mspabi_srli_14        
-0000c6f8  __mspabi_srli_15        
-0000c72c  __mspabi_srli_2         
-0000c728  __mspabi_srli_3         
-0000c724  __mspabi_srli_4         
-0000c720  __mspabi_srli_5         
-0000c71c  __mspabi_srli_6         
-0000c718  __mspabi_srli_7         
-0000c714  __mspabi_srli_8         
-0000c710  __mspabi_srli_9         
-0000c5f4  _auto_init              
-0000c942  _c_int00_noargs_noexit  
+0000c9c2  __mspabi_divu           
+0000ca54  __mspabi_func_epilog_1  
+0000ca52  __mspabi_func_epilog_2  
+0000ca50  __mspabi_func_epilog_3  
+0000ca4e  __mspabi_func_epilog_4  
+0000ca4c  __mspabi_func_epilog_5  
+0000ca4a  __mspabi_func_epilog_6  
+0000ca48  __mspabi_func_epilog_7  
+0000c9ec  __mspabi_mpyi           
+0000c9ec  __mspabi_mpyi_sw        
+0000c9c2  __mspabi_remu           
+0000c8ac  __mspabi_slli           
+0000c8d4  __mspabi_slli_1         
+0000c8c2  __mspabi_slli_10        
+0000c8c0  __mspabi_slli_11        
+0000c8be  __mspabi_slli_12        
+0000c8bc  __mspabi_slli_13        
+0000c8ba  __mspabi_slli_14        
+0000c8b8  __mspabi_slli_15        
+0000c8d2  __mspabi_slli_2         
+0000c8d0  __mspabi_slli_3         
+0000c8ce  __mspabi_slli_4         
+0000c8cc  __mspabi_slli_5         
+0000c8ca  __mspabi_slli_6         
+0000c8c8  __mspabi_slli_7         
+0000c8c6  __mspabi_slli_8         
+0000c8c4  __mspabi_slli_9         
+0000c73c  __mspabi_srli           
+0000c782  __mspabi_srli_1         
+0000c75e  __mspabi_srli_10        
+0000c75a  __mspabi_srli_11        
+0000c756  __mspabi_srli_12        
+0000c752  __mspabi_srli_13        
+0000c74e  __mspabi_srli_14        
+0000c74a  __mspabi_srli_15        
+0000c77e  __mspabi_srli_2         
+0000c77a  __mspabi_srli_3         
+0000c776  __mspabi_srli_4         
+0000c772  __mspabi_srli_5         
+0000c76e  __mspabi_srli_6         
+0000c76a  __mspabi_srli_7         
+0000c766  __mspabi_srli_8         
+0000c762  __mspabi_srli_9         
+0000c59c  _auto_init              
+0000c960  _c_int00_noargs_noexit  
 0000fffe  _reset_vector           
 000003b0  _stack                  
-0000ca98  _system_pre_init        
-0000ca9c  abort                   
+0000cab6  _system_pre_init        
+0000caba  abort                   
 ffffffff  binit                   
-0000c95c  main                    
-0000ca18  memcpy                  
-00000208  msec_counter            
-00000214  rx_i                    
-0000021e  rx_str_buffer           
-0000020a  sec_counter             
-0000c976  strcmp                  
-0000ca3a  strcpy                  
-0000c8ba  strcspn                 
-0000ca74  strlen                  
-0000c8e2  strspn                  
-0000c69c  strtok                  
-00000236  tx_i                    
-0000022e  tx_str_buffer           
-00000238  tx_str_len              
+0000c97a  main                    
+0000ca36  memcpy                  
+00000224  msec_counter            
+0000022e  rx_i                    
+00000200  rx_str_buffer           
+00000226  sec_counter             
+0000c994  strcmp                  
+0000ca58  strcpy                  
+0000c8d8  strcspn                 
+0000ca92  strlen                  
+0000c900  strspn                  
+0000c6ee  strtok                  
+00000218  tx_i                    
+00000210  tx_str_buffer           
+0000021a  tx_str_len              
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -521,25 +520,24 @@ address   name
 000001b2  ADC10CTL1               
 000001b4  ADC10MEM                
 000001bc  ADC10SA                 
-00000200  GRL_STATUS              
-00000202  BLK_STATUS              
-00000204  TMS_STATUS              
-00000206  TIMER_A_SELECT          
-00000208  msec_counter            
-0000020a  sec_counter             
-0000020c  T_MEAS                  
-0000020e  MEASUREMENT             
-00000210  TX_STR                  
-00000212  TX_TRS                  
-00000214  rx_i                    
-00000216  RX_TRS                  
-00000218  SILENT_MODE             
-0000021a  NUM_FORMAT              
-0000021e  rx_str_buffer           
-0000022e  tx_str_buffer           
-00000234  MEASURE                 
-00000236  tx_i                    
-00000238  tx_str_len              
+00000200  rx_str_buffer           
+00000210  tx_str_buffer           
+00000216  MEASURE                 
+00000218  tx_i                    
+0000021a  tx_str_len              
+0000021c  GRL_STATUS              
+0000021e  BLK_STATUS              
+00000220  TMS_STATUS              
+00000222  TIMER_A_SELECT          
+00000224  msec_counter            
+00000226  sec_counter             
+00000228  T_MEAS                  
+0000022a  MEASUREMENT             
+0000022c  TX_TRS                  
+0000022e  rx_i                    
+00000230  RX_TRS                  
+00000232  SILENT_MODE             
+00000234  NUM_FORMAT              
 000003b0  _stack                  
 00000400  __STACK_END             
 000010c0  TLV_CHECKSUM            
@@ -556,96 +554,96 @@ address   name
 000010fe  CALDCO_1MHZ             
 000010ff  CALBC1_1MHZ             
 0000c000  USCI0RX_ISR             
-0000c146  Read_Temp               
-0000c1e4  Serial_PrintHex         
-0000c278  Red_led_func            
-0000c306  Exec_Commands           
-0000c382  Serial_HexStrToInt      
-0000c3f6  Timer_A                 
-0000c466  Green_led_func          
-0000c4cc  Serial_PrintDec         
-0000c594  USCI0TX_ISR             
-0000c5f4  _auto_init              
-0000c64c  Serial_DecStrToInt      
-0000c69c  strtok                  
-0000c6ea  __mspabi_srli           
-0000c6f8  __mspabi_srli_15        
-0000c6fc  __mspabi_srli_14        
-0000c700  __mspabi_srli_13        
-0000c704  __mspabi_srli_12        
-0000c708  __mspabi_srli_11        
-0000c70c  __mspabi_srli_10        
-0000c710  __mspabi_srli_9         
-0000c714  __mspabi_srli_8         
-0000c718  __mspabi_srli_7         
-0000c71c  __mspabi_srli_6         
-0000c720  __mspabi_srli_5         
-0000c724  __mspabi_srli_4         
-0000c728  __mspabi_srli_3         
-0000c72c  __mspabi_srli_2         
-0000c730  __mspabi_srli_1         
-0000c736  Serial_PrintStr         
-0000c776  Silent_Mode_Select      
-0000c7b6  Show_help               
-0000c7f4  Serial_PrintStrOSM      
-0000c82e  Num_Format_Select       
-0000c862  SetUART_115200_16MHz    
-0000c88e  __mspabi_slli           
-0000c89a  __mspabi_slli_15        
-0000c89c  __mspabi_slli_14        
-0000c89e  __mspabi_slli_13        
-0000c8a0  __mspabi_slli_12        
-0000c8a2  __mspabi_slli_11        
-0000c8a4  __mspabi_slli_10        
-0000c8a6  __mspabi_slli_9         
-0000c8a8  __mspabi_slli_8         
-0000c8aa  __mspabi_slli_7         
-0000c8ac  __mspabi_slli_6         
-0000c8ae  __mspabi_slli_5         
-0000c8b0  __mspabi_slli_4         
-0000c8b2  __mspabi_slli_3         
-0000c8b4  __mspabi_slli_2         
-0000c8b6  __mspabi_slli_1         
-0000c8ba  strcspn                 
-0000c8e2  strspn                  
-0000c90a  ConfigMSP               
-0000c928  InitPorts               
-0000c942  _c_int00_noargs_noexit  
-0000c95c  main                    
-0000c976  strcmp                  
-0000c98e  PrintMeasure            
-0000c9a4  __mspabi_divu           
-0000c9a4  __mspabi_remu           
-0000c9ba  __TI_zero_init          
-0000c9ce  __mspabi_mpyi           
-0000c9ce  __mspabi_mpyi_sw        
-0000c9e2  Serial_PrintInt         
-0000c9f4  Serial_StrToInt         
-0000ca06  __TI_decompress_none    
-0000ca18  memcpy                  
-0000ca2a  __mspabi_func_epilog_7  
-0000ca2c  __mspabi_func_epilog_6  
-0000ca2e  __mspabi_func_epilog_5  
-0000ca30  __mspabi_func_epilog_4  
-0000ca32  __mspabi_func_epilog_3  
-0000ca34  __mspabi_func_epilog_2  
-0000ca36  __mspabi_func_epilog_1  
-0000ca3a  strcpy                  
-0000ca4a  SetADC                  
-0000ca58  SetClock_16Mhz          
-0000ca66  SetTimerA               
-0000ca74  strlen                  
-0000ca82  Serial_GetRxBuff        
-0000ca8c  __TI_ISR_TRAP           
-0000ca92  __TI_decompress_rle24   
-0000ca98  _system_pre_init        
-0000ca9c  C$$EXIT                 
-0000ca9c  abort                   
-0000cda4  COMMAND_LIST            
-0000cdd6  __TI_Handler_Table_Base 
-0000cddc  __TI_Handler_Table_Limit
-0000cde0  __TI_CINIT_Base         
-0000cde8  __TI_CINIT_Limit        
+0000c14e  Read_Temp               
+0000c1ec  Serial_PrintHex         
+0000c280  Red_led_func            
+0000c30e  Exec_Commands           
+0000c38a  Serial_HexStrToInt      
+0000c3fe  Timer_A                 
+0000c46e  Green_led_func          
+0000c4d4  Serial_PrintDec         
+0000c59c  _auto_init              
+0000c5f4  Num_Format_Select       
+0000c64a  USCI0TX_ISR             
+0000c69e  Serial_DecStrToInt      
+0000c6ee  strtok                  
+0000c73c  __mspabi_srli           
+0000c74a  __mspabi_srli_15        
+0000c74e  __mspabi_srli_14        
+0000c752  __mspabi_srli_13        
+0000c756  __mspabi_srli_12        
+0000c75a  __mspabi_srli_11        
+0000c75e  __mspabi_srli_10        
+0000c762  __mspabi_srli_9         
+0000c766  __mspabi_srli_8         
+0000c76a  __mspabi_srli_7         
+0000c76e  __mspabi_srli_6         
+0000c772  __mspabi_srli_5         
+0000c776  __mspabi_srli_4         
+0000c77a  __mspabi_srli_3         
+0000c77e  __mspabi_srli_2         
+0000c782  __mspabi_srli_1         
+0000c788  Serial_PrintStr         
+0000c7c8  Silent_Mode_Select      
+0000c808  Show_help               
+0000c846  Serial_PrintStrOSM      
+0000c880  SetUART_115200_16MHz    
+0000c8ac  __mspabi_slli           
+0000c8b8  __mspabi_slli_15        
+0000c8ba  __mspabi_slli_14        
+0000c8bc  __mspabi_slli_13        
+0000c8be  __mspabi_slli_12        
+0000c8c0  __mspabi_slli_11        
+0000c8c2  __mspabi_slli_10        
+0000c8c4  __mspabi_slli_9         
+0000c8c6  __mspabi_slli_8         
+0000c8c8  __mspabi_slli_7         
+0000c8ca  __mspabi_slli_6         
+0000c8cc  __mspabi_slli_5         
+0000c8ce  __mspabi_slli_4         
+0000c8d0  __mspabi_slli_3         
+0000c8d2  __mspabi_slli_2         
+0000c8d4  __mspabi_slli_1         
+0000c8d8  strcspn                 
+0000c900  strspn                  
+0000c928  ConfigMSP               
+0000c946  InitPorts               
+0000c960  _c_int00_noargs_noexit  
+0000c97a  main                    
+0000c994  strcmp                  
+0000c9ac  PrintMeasure            
+0000c9c2  __mspabi_divu           
+0000c9c2  __mspabi_remu           
+0000c9d8  __TI_zero_init          
+0000c9ec  __mspabi_mpyi           
+0000c9ec  __mspabi_mpyi_sw        
+0000ca00  Serial_PrintInt         
+0000ca12  Serial_StrToInt         
+0000ca24  __TI_decompress_none    
+0000ca36  memcpy                  
+0000ca48  __mspabi_func_epilog_7  
+0000ca4a  __mspabi_func_epilog_6  
+0000ca4c  __mspabi_func_epilog_5  
+0000ca4e  __mspabi_func_epilog_4  
+0000ca50  __mspabi_func_epilog_3  
+0000ca52  __mspabi_func_epilog_2  
+0000ca54  __mspabi_func_epilog_1  
+0000ca58  strcpy                  
+0000ca68  SetADC                  
+0000ca76  SetClock_16Mhz          
+0000ca84  SetTimerA               
+0000ca92  strlen                  
+0000caa0  Serial_GetRxBuff        
+0000caaa  __TI_ISR_TRAP           
+0000cab0  __TI_decompress_rle24   
+0000cab6  _system_pre_init        
+0000caba  C$$EXIT                 
+0000caba  abort                   
+0000cdec  COMMAND_LIST            
+0000ce1e  __TI_Handler_Table_Base 
+0000ce24  __TI_Handler_Table_Limit
+0000ce28  __TI_CINIT_Base         
+0000ce30  __TI_CINIT_Limit        
 0000ffe0  __TI_int00              
 0000ffe4  __TI_int02              
 0000ffe6  __TI_int03              
@@ -666,4 +664,4 @@ ffffffff  binit
 UNDEFED   __TI_INITARRAY_Base     
 UNDEFED   __TI_INITARRAY_Limit    
 
-[230 symbols]
+[229 symbols]
