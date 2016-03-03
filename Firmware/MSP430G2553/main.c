@@ -10,7 +10,7 @@
  *	ecfm.usac.edu.gt
  *
  *  Created on: Jan 27, 2016
- *      Author: Hector
+ *      Author: Hector Perez (hector@ecfm.usac.edu.gt)
  */
 
 

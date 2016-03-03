@@ -10,7 +10,7 @@
  *	ecfm.usac.edu.gt
  *
  *  Created on: 25/02/2016
- *      Author: hepf
+ *      Author: Hector Perez (hector@ecfm.usac.edu.gt)
  */
 
 #include "string.h"
@@ -43,10 +43,10 @@ void Num_Format_Select(char *);
 
 /* Commands table */
 const command COMMAND_LIST[ CMD_NUMBER ] = {
-		{"NF", Num_Format_Select, "NF n\tn={0|1}; Set numeric format: 0 - hex; 1 - dec. "},
+		{"NF", Num_Format_Select, "NF n\tn={0|1|?}; Set numeric format: 0 - hex; 1 - dec; ? - show current format."},
 		{"TM", Read_Temp, "TM n m\tn={0|1}; turn off (0) or on (1) measuremenst from on board\
-				\n\ttemperature senson with period T = m secs. (0 < m < 65535)"},
-		{"RL", Red_led_func, "RL n m\tn={0|1}; turn off (0) or on (1) on board red led\n\tblinkin with period T = m*62.5 ns. (0 < m < 65535)"},
+				\n\ttemperature senson with period T = m secs. (0 < m < 0xFFFF)"},
+		{"RL", Red_led_func, "RL n m\tn={0|1}; turn off (0) or on (1) on board red led\n\tblinkin with period T = m*62.5 ns. (0 < m < 0xFFFF)"},
 		{"GL", Green_led_func, "GL n\tn={0|1}; Turn off (0) or on (1) on board green led"},
 		{"SM", Silent_Mode_Select, "SM n\tSilent mode select:\
 				\n\tn=0\tDisable. Keyboard feedback and all messages are show.\
@@ -63,7 +63,7 @@ void Exec_Commands(void){
 	char Rcv_Cmd[ RX_BUF_SIZE ];
 	unsigned int CMD = 0;
 	char *token;
-	 GetRxBuff(Rcv_Cmd);
+	Serial_GetRxBuff(Rcv_Cmd);
 	token = strtok(Rcv_Cmd," ");
 	unsigned int i = CMD_NUMBER;
 	while(i--){
@@ -73,19 +73,19 @@ void Exec_Commands(void){
 		CMD = 1;
 		}
 	}
-	if( !CMD ) PrintStr( "> Invalid command\n" );
+	if( !CMD ) Serial_PrintStr( "> Invalid command\n" );
 	RX_TRS = 0;
 }
 
 
 void Show_help(char *arg){
 	unsigned int i = CMD_NUMBER;
-	PrintStr( "\nCommands avaible:\n" );
+	Serial_PrintStr( "\nCommands avaible:\n" );
 	while( i-- ){
-		PrintStr( "\n" );
-		PrintStr( COMMAND_LIST[ i ].cmd_help );
+		Serial_PrintStr( "\n" );
+		Serial_PrintStr( COMMAND_LIST[ i ].cmd_help );
 	}
-	PrintStr( "\n\n" );
+	Serial_PrintStr( "\n\n" );
 }
 
 void Silent_Mode_Select(char *arg){
@@ -105,9 +105,9 @@ void Silent_Mode_Select(char *arg){
 		break;
 	}
 	if ( CMD_OK )
-		PrintStr( "> OK\n" );
+		Serial_PrintStr( "> OK\n" );
 	else
-		PrintStr( "> Invalid argument\n" );
+		Serial_PrintStr( "> Invalid argument\n" );
 }
 
 void Green_led_func(char *arg){
@@ -130,13 +130,13 @@ void Green_led_func(char *arg){
 	}
 	switch ( CMD_OK ){
 	case 0:
-		PrintStr( "> Invalid argument\n" );
+		Serial_PrintStr( "> Invalid argument\n" );
 		break;
 	case 1:
-		PrintStr( "> OK\n" );
+		Serial_PrintStr( "> OK\n" );
 		break;
 	case 2:
-		PrintStr( "> No change\n" );
+		Serial_PrintStr( "> No change\n" );
 		break;
 	}
 }
@@ -157,8 +157,13 @@ void Red_led_func(char *arg){
 		break;
 	case '1':
 		if (!BLK_STATUS && !TMS_STATUS ){
+/*
+ * TODO: find a better way to pass arguments to functions in order to
+ * avoid the confusing use of strtok( NULL, " ")
+ *
+ */
 			token = strtok( NULL, " ");
-			Period = StrToInt( token );
+			Period = Serial_StrToInt( token );
 			if( Period ){
 			    CCR0 =  Period;
 				BLK_STATUS = 1;
@@ -171,20 +176,20 @@ void Red_led_func(char *arg){
 	}
 	switch ( CMD_OK ){
 	case 0:
-		PrintStr( "> Invalid argument\n" );
+		Serial_PrintStr( "> Invalid argument\n" );
 		break;
 	case 1:
-		PrintStr( "> OK\n" );
+		Serial_PrintStr( "> OK\n" );
 		break;
 	case 2:
-		PrintStr( "> Timer Busy\n" );
+		Serial_PrintStr( "> Timer Busy\n" );
 		break;
 	}
 }
 
 void PrintMeasure(void){
-	PrintInt( MEASURE );
-	PrintStrOSM("\n");
+	Serial_PrintInt( MEASURE );
+	Serial_PrintStrOSM("\n");
 	MEASUREMENT = 0;
 }
 
@@ -201,8 +206,13 @@ void Read_Temp(char *arg){
 		break;
 	case '1':
 		if ( !TMS_STATUS && !BLK_STATUS ){
+/*
+ * TODO: find a better way to pass arguments to functions in order to
+ * avoid the confusing use of strtok( NULL, " ")
+*
+ */
 			token = strtok( NULL, " ");
-			T_MEAS = StrToInt( token );
+			T_MEAS = Serial_StrToInt( token );
 			if( T_MEAS ){
 			    CCR0 = 2000;
 				TMS_STATUS = 1;
@@ -217,13 +227,13 @@ void Read_Temp(char *arg){
 	}
 	switch ( CMD_OK ){
 	case 0:
-		PrintStr( "> Invalid argument\n" );
+		Serial_PrintStr( "> Invalid argument\n" );
 		break;
 	case 1:
-		PrintStr( "> OK\n" );
+		Serial_PrintStr( "> OK\n" );
 		break;
 	case 2:
-		PrintStr( "> Timer busy\n" );
+		Serial_PrintStr( "> Timer busy\n" );
 		break;
 	}
 }
@@ -239,9 +249,14 @@ void Num_Format_Select(char *arg){
 		NUM_FORMAT = 1;
 		CMD_OK = 1;
 		break;
+	case '?':
+		if( NUM_FORMAT ) Serial_PrintStr("dec\n");
+		else Serial_PrintStr("hex\n");
+		CMD_OK = 1;
+		break;
 	}
-	if ( CMD_OK ) PrintStr( "> OK\n" );
-	else PrintStr( "> Invalid argument\n" );
+	if ( CMD_OK ) Serial_PrintStr( "> OK\n" );
+	else Serial_PrintStr( "> Invalid argument\n" );
 }
 
 
@@ -250,7 +265,7 @@ __interrupt void Timer_A (void)
 {
 	switch( TIMER_A_SELECT ){
 		case 0:
-			P1OUT ^= RD_LED;  // Toggle P1.0
+			P1OUT ^= RD_LED;
 			break;
 		case 1:
 			msec_counter--;
@@ -258,10 +273,10 @@ __interrupt void Timer_A (void)
 				sec_counter--;
 				msec_counter = 1000;
 				if ( !sec_counter ){
-					ADC10CTL0 |= ENC + ADC10SC;      //enable conversion and start conversion
-					while(ADC10CTL1 & BUSY);         //wait..i am converting..pum..pum..
-					MEASURE = ( ADC10MEM - 673 )*423 /1024;                       //store val in t
-					ADC10CTL0 &= ~ENC;                     //disable adc conv
+					ADC10CTL0 |= ENC + ADC10SC;
+					while(ADC10CTL1 & BUSY);
+					MEASURE = ( ADC10MEM - 673 )*423 /1024;
+					ADC10CTL0 &= ~ENC;
 					sec_counter = T_MEAS;
 					MEASUREMENT = 1;
 				}
