@@ -25,9 +25,20 @@ volatile unsigned int TX_TRS = 0;
 
 char rx_str_buffer[ RX_BUF_SIZE ];
 unsigned int rx_i = 0;
+/** Flag. Indicates when a command is recived via serial RX */
 volatile unsigned int RX_TRS = 0;
 
+/** Flag. Used to choose what to send via serial TX.
+ *  Posible values:	0 - Send everything (default);
+ *  				1 - Send commands confirmation & measurements;
+ *  				2 - Only send measurements;
+ */
 unsigned int SILENT_MODE = 0;
+
+/** Flag. Used to select the numeric base for read/print integers.
+ * Posible values: 	0 - hex (default);
+ * 					1 - dec.
+ */
 unsigned int NUM_FORMAT = 0;
 
 /* TX interrupt */

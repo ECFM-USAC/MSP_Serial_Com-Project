@@ -27,6 +27,7 @@ unsigned int TIMER_A_SELECT = 0;
 unsigned int msec_counter = 0;
 unsigned int sec_counter = 0;
 unsigned int T_MEAS = 1;
+/** Flag. Indicates when a temp measurement is ready */
 unsigned int MEASUREMENT = 0;
 unsigned int MEASURE;
 
@@ -284,4 +285,4 @@ __interrupt void Timer_A (void)
 
 			break;
 	}
- }
+}
